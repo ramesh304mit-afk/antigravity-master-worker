@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Groww Search Suggestions</title>
+  <style>
+    .search-box {
+      position: relative;
+      width: 360px;
+      font-family: Arial, sans-serif;
+    }
+
+    #searchInput {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+    }
+
+    #suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 4px;
+      max-height: 320px;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 4px 12px #0002;
+    }
+
+    .suggestion {
+      padding: 10px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .suggestion:hover {
+      background: #f2f7f4;
+    }
+
+    .muted {
+      color: #666;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-box">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search stocks or indices..."
+      autocomplete="off"
+    >
+    <div id="suggestions" hidden></div>
+  </div>
+
+  <script>
+    const input = document.getElementById("searchInput");
+    const suggestions = document.getElementById("suggestions");
+
+    let debounceTimer;
+    let controller;
+
+    input.addEventListener("input", () => {
+      clearTimeout(debounceTimer);
+
+      const query = input.value.trim();
+
+      if (!query) {
+        suggestions.hidden = true;
+        suggestions.replaceChildren();
+        return;
+      }
+
+      debounceTimer = setTimeout(() => searchGroww(query), 180);
+    });
+
+    async function searchGroww(query) {
+      if (controller) controller.abort();
+      controller = new AbortController();
+
+      const url = new URL(
+        "https://groww.in/v1/api/search/v3/query/global/st_query?from=se&query=ni&size=15&web=true"
+      );
+
+      url.search = new URLSearchParams({
+        from: "0",
+        query,
+        size: "15",
+        web: "true"
+      });
+
+      try {
+        const response = await fetch(url, {
+          signal: controller.signal,
+          headers: { Accept: "application/json" }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Inspect the real response to determine the correct result array.
+        console.log("Groww search response:", data);
+
+        renderSuggestions(data, query);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Groww search failed:", error);
+          suggestions.replaceChildren();
+          suggestions.hidden = false;
+          suggestions.textContent =
+            "Search unavailable. Check the console for details.";
+        }
+      }
+    }
+
+    function renderSuggestions(data, query) {
+      suggestions.replaceChildren();
+
+      // Adapt these paths after inspecting the actual JSON response.
+      const results =
+        Array.isArray(data) ? data :
+        data?.data?.results ??
+        data?.data?.content ??
+        data?.results ??
+        data?.content ??
+        data?.payload?.results ??
+        [];
+
+      if (!Array.isArray(results) || results.length === 0) {
+        suggestions.textContent = "No suggestions found";
+        suggestions.hidden = false;
+        return;
+      }
+
+      for (const item of results) {
+        const row = document.createElement("div");
+        row.className = "suggestion";
+
+        const name = document.createElement("div");
+        name.textContent =
+          item.companyName ??
+          item.name ??
+          item.displayName ??
+          item.trading_symbol ??
+          item.symbol ??
+          JSON.stringify(item);
+
+        row.appendChild(name);
+
+        const detail = document.createElement("div");
+        detail.className = "muted";
+        detail.textContent =
+          item.symbol ?? item.exchange ?? item.type ?? "";
+        row.appendChild(detail);
+
+        row.addEventListener("click", () => {
+          input.value = name.textContent;
+          suggestions.hidden = true;
+          console.log("Selected suggestion:", item);
+        });
+
+        suggestions.appendChild(row);
+      }
+
+      suggestions.hidden = false;
+    }
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".search-box")) {
+        suggestions.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

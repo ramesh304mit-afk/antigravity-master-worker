@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="theme-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groww Terminal - Live Trading & Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/charting_library/charting_library.standalone.js"></script>
+  <script src="/datafeed.js"></script>
+  <!-- Authentic Groww Official Design System Stylesheets from webtest/css -->
+  <link rel="stylesheet" href="/css/c9404423229b5731.css">
+  <link rel="stylesheet" href="/css/e446f02df6420cd3.css">
+  <link rel="stylesheet" href="/css/b84b3f547e856962.css">
+  <link rel="stylesheet" href="/css/7f3bdd7023b256cc.css">
+  <link rel="stylesheet" href="/css/6f7fc0b84b1c29ae.css">
+  <link rel="stylesheet" href="/css/3cac0cca1c311f46.css">
+  <link rel="stylesheet" href="/css/306195cfd1709f89.css">
+  <link rel="stylesheet" href="/css/64f644bee8687a35.css">
+  <link rel="stylesheet" href="/css/ac9f66f94e176226.css">
+  <link rel="stylesheet" href="/css/a0c988bee25e098b.css">
+  <link rel="stylesheet" href="/css/d14cd6268902bd3e.css">
+  <link rel="stylesheet" href="/css/50e3094e952cc317.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#121622] text-slate-100 h-screen w-screen flex flex-col font-['Plus_Jakarta_Sans',sans-serif] overflow-hidden select-none">
+
+  <!-- ============================================================= -->
+  <!-- 1. TOP HEADER (Exact Groww Official Terminal Header)           -->
+  <!-- ============================================================= -->
+  <header class="h-[52px] bg-[#121622] border-b border-[#1e2433] px-4 flex items-center justify-between shrink-0 z-50">
+    <!-- Left: Brand Logo & Title -->
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-[#00d09c] flex items-center justify-center shadow">
+        <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+          <path d="M7.5 17.5L12 13L15.5 16.5L20.5 10.5" stroke="#121622" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 10.5H20.5V13.5" stroke="#121622" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-white font-bold text-lg tracking-tight">Terminal</span>
+        <span id="ws-status-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+      </div>
+    </div>
+
+    <!-- Center: Search Input Bar -->
+    <div class="flex-1 max-w-[460px] mx-6">
+      <div class="relative flex items-center">
+        <svg class="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input 
+          id="global-search-input" 
+          type="text" 
+          placeholder="Search for Stocks, F&O, Indices etc." 
+          class="w-full bg-[#1b2130] text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-1.5 border border-[#2d3748] focus:border-[#00d09c] focus:outline-none transition"
+        >
+        <!-- Search Dropdown Results (Groww CSS: .se27SeSuggestionsContainer) -->
+        <div id="search-dropdown" class="se27SeSuggestionsContainer hidden">
+          <div id="search-results-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Mode Badge, Bell, User Profile -->
+    <div class="flex items-center gap-3">
+      <span id="ws-mode-badge" class="text-[10.5px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-[#00d09c] border border-emerald-500/20 font-semibold">
+        REPLAY 1X
+      </span>
+      <button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#1b2130] text-slate-300 transition">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow">
+        R
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- 2. INDICES TICKER SUB-HEADER (Clean, borderless row)          -->
+  <!-- ============================================================= -->
+  <div class="h-[38px] bg-[#0f131d] border-b border-[#1e2433] px-4 flex items-center justify-between shrink-0 text-xs z-40">
+    <!-- Left: Streaming Indices -->
+    <div id="indices-ticker-row" class="flex items-center gap-6 overflow-x-auto scrollbar-none font-sans">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- Right: Edit Pencil & Replay Playback Controls -->
+    <div class="flex items-center gap-3 shrink-0">
+      <button class="text-slate-400 hover:text-slate-200 transition text-sm" title="Customize Ticker">✎</button>
+      <div class="h-3.5 w-px bg-[#2d3748]"></div>
+      <!-- Play/Pause -->
+      <button id="btn-toggle-play" class="flex items-center gap-1 text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition">
+        <span id="btn-play-icon">⏸</span>
+        <span id="btn-play-label">Pause</span>
+      </button>
+      <!-- Speed -->
+      <select id="select-speed" class="bg-[#1b2130] text-[11px] text-slate-300 font-semibold rounded px-1.5 py-0.5 border border-slate-700 focus:outline-none cursor-pointer">
+        <option value="1">1x Speed</option>
+        <option value="2">2x Speed</option>
+        <option value="5">5x Speed</option>
+        <option value="10">10x Speed</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 3. MAIN WORKSPACE (Chart + Collapsible Panel + Right Sidebar) -->
+  <!-- ============================================================= -->
+  <div class="flex-1 flex w-full h-[calc(100vh-90px)] relative overflow-hidden">
+
+    <!-- Central Chart Canvas -->
+    <main class="flex-1 h-full min-w-0 relative bg-[#121622]">
+      <div id="tv-chart-container" class="w-full h-full"></div>
+    </main>
+
+    <!-- Slide-Out Drawer Panel (440px) -->
+    <aside id="drawer-panel" class="drawer_panel hidden">
+      <!-- Drawer Header (# Chain + Close) -->
+      <div class="h-[46px] border-b border-[#1e2433] px-4 flex items-center justify-between bg-[#151a28]">
+        <div class="flex items-center gap-2">
+          <h2 id="drawer-panel-title" class="font-bold text-sm text-white flex items-center gap-1.5 tracking-tight font-sans">
+            <span class="text-slate-400 font-mono font-normal">#</span>
+            <span id="drawer-panel-title-text">Chain</span>
+          </h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-close-drawer" class="text-slate-400 hover:text-white transition p-1 rounded-lg hover:bg-[#1b2130]">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawer Body: Option Chain Panel (Groww Official 3-Column Layout from Screenshot) -->
+      <div id="panel-chain" class="panel-view flex-1 flex flex-col overflow-hidden">
+        <!-- Sub-Header: Index Dropdown + Payoff & Greek Sigma Toggles -->
+        <div class="OptionChainHeaderNew_header__R_gto p-3 border-b border-[#1e2433] flex items-center justify-between bg-[#121622]">
+          <div class="relative flex items-center gap-1.5">
+            <button id="oc-index-btn" class="flex items-center gap-1.5 text-sm font-bold text-white hover:text-emerald-400 transition cursor-pointer">
+              <span id="oc-index-symbol">NIFTY</span>
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Right Action Toggles: Payoff Strategy & Greek Sigma (Σ) -->
+          <div class="OptionChainHeaderNew_toggles__fKnaw flex items-center gap-2">
+            <!-- Strategy / Payoff Icon Button -->
+            <button class="w-7 h-7 rounded-full bg-[#1b2130] hover:bg-[#232a3d] text-slate-300 hover:text-white flex items-center justify-center transition border border-[#2d3748] cursor-pointer" title="Payoff Strategy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M19 9l-5 5-4-4-3 3"/>
+              </svg>
+            </button>
+            <!-- Greek Sigma (Σ) Toggle Button (.GreeksToggle_greeksToggle__7DWJX) -->
+            <button id="oc-greeks-toggle-btn" class="GreeksToggle_greeksToggle__7DWJX w-7 h-7 rounded-full bg-[#1b2130] hover:bg-[#232a3d] text-slate-300 hover:text-white flex items-center justify-center transition border border-[#2d3748] font-bold text-xs cursor-pointer" title="Toggle Greeks (IV & Delta)">
+              Σ
+            </button>
+          </div>
+        </div>
+
+        <!-- 3-Column Header: Call LTP | Expiry Dropdown | Put LTP -->
+        <div class="OptionChain_header__dlWH1 grid grid-cols-3 items-center py-2.5 px-3 border-b border-[#1e2433] bg-[#121622] text-xs font-semibold text-slate-400 sticky top-0 z-20">
+          <div class="text-right pr-4 tracking-wide font-sans text-slate-300 font-bold">Call LTP</div>
+          <div class="flex items-center justify-center">
+            <select id="oc-expiry-select" class="bg-transparent hover:bg-[#1b2130] text-xs font-bold text-slate-200 border-none rounded px-2 py-0.5 focus:outline-none cursor-pointer transition font-mono">
+              <option value="03 Nov">03 Nov ⌵</option>
+              <option value="10 Nov">10 Nov ⌵</option>
+              <option value="26 Nov">26 Nov ⌵</option>
+              <option value="31 Dec">31 Dec ⌵</option>
+            </select>
+          </div>
+          <div class="text-left pl-4 tracking-wide font-sans text-slate-300 font-bold">Put LTP</div>
+        </div>
+
+        <!-- Scrollable 3-Column Matrix with Floating Spot Price -->
+        <div id="option-chain-scroll-container" class="flex-1 overflow-y-auto scrollbar-thin relative divide-y divide-[#1e2433]">
+          <!-- Filled dynamically by renderOptionChain in app.js -->
+        </div>
+      </div>
+
+      <!-- Drawer Body: Watchlist Panel -->
+      <div id="panel-watchlist" class="panel-view flex-1 flex flex-col overflow-hidden hidden">
+        <div class="p-3 border-b border-[#1e2433]">
+          <input 
+            id="watchlist-filter" 
+            type="text" 
+            placeholder="Filter Watchlist instruments..." 
+            class="w-full bg-[#1b2130] text-xs text-slate-200 placeholder-slate-400 rounded-lg px-3 py-1.5 border border-slate-700 focus:outline-none"
+          >
+        </div>
+        <div id="watchlist-items-list" class="flex-1 overflow-y-auto divide-y divide-[#1e2433] scrollbar-thin">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Drawer Body: Positions Panel (Groww Official .tp23PositionsContainer) -->
+      <div id="panel-positions" class="panel-view flex-1 flex flex-col overflow-hidden hidden tp23PositionsContainer">
+        <div class="p-3 border-b border-[#1e2433] flex items-center justify-between bg-[#151a28] tp23PositionsHeader">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block tp23Title">Total Realized & Unrealized P&L</span>
+            <span id="pos-total-pnl" class="text-base font-bold text-emerald-400 font-mono">+₹270.00 (+5.77%)</span>
+          </div>
+          <button id="btn-exit-all-positions" class="mint-btn-default mint-btn-small text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 px-3 py-1 rounded hover:bg-rose-500/30 font-semibold transition">
+            Exit All
+          </button>
+        </div>
+        <div id="positions-items-list" class="flex-1 overflow-y-auto divide-y divide-[#1e2433] scrollbar-thin p-2 space-y-2">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Drawer Body: Orders Panel -->
+      <div id="panel-orders" class="panel-view flex-1 flex flex-col overflow-hidden hidden">
+        <div class="p-2 border-b border-[#1e2433] flex gap-2">
+          <button class="px-3 py-1 text-xs font-semibold rounded bg-[#1b2130] text-white">All Orders</button>
+          <button class="px-3 py-1 text-xs font-semibold rounded text-slate-400 hover:text-white">Executed</button>
+          <button class="px-3 py-1 text-xs font-semibold rounded text-slate-400 hover:text-white">Open</button>
+        </div>
+        <div id="orders-items-list" class="flex-1 overflow-y-auto divide-y divide-[#1e2433] scrollbar-thin p-2 space-y-2">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Drawer Body: Market Depth Panel -->
+      <div id="panel-depth" class="panel-view flex-1 flex flex-col overflow-hidden hidden">
+        <div class="p-3 border-b border-[#1e2433] bg-[#151a28] flex items-center justify-between">
+          <span class="text-xs font-bold text-white uppercase tracking-wider">Level 2 Market Depth (5-Bids / 5-Asks)</span>
+          <span id="depth-spot" class="text-xs font-mono font-bold text-emerald-400">23,071.45</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col gap-4 overflow-y-auto scrollbar-thin">
+          <!-- Buy vs Sell progress bar -->
+          <div>
+            <div class="flex justify-between text-[11px] font-mono mb-1">
+              <span id="depth-total-buy" class="text-emerald-400 font-bold">Buy: 64.2%</span>
+              <span id="depth-total-sell" class="text-rose-400 font-bold">Sell: 35.8%</span>
+            </div>
+            <div class="h-2 w-full bg-[#1b2130] rounded-full overflow-hidden flex">
+              <div id="depth-buy-ratio" class="h-full bg-emerald-500" style="width: 64%"></div>
+              <div id="depth-sell-ratio" class="h-full bg-rose-500" style="width: 36%"></div>
+            </div>
+          </div>
+          <!-- Ladder table -->
+          <table class="w-full text-xs font-mono border-collapse">
+            <thead class="text-[10px] text-slate-400 border-b border-[#1e2433]">
+              <tr>
+                <th class="py-1 text-left text-emerald-400">Orders</th>
+                <th class="py-1 text-left text-emerald-400">Qty</th>
+                <th class="py-1 text-right text-emerald-400">Bid</th>
+                <th class="py-1 text-left text-rose-400 pl-4">Ask</th>
+                <th class="py-1 text-right text-rose-400">Qty</th>
+                <th class="py-1 text-right text-rose-400">Orders</th>
+              </tr>
+            </thead>
+            <tbody id="depth-table-body" class="divide-y divide-[#1e2433]">
+              <!-- Filled dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Drawer Body: Holdings Panel -->
+      <div id="panel-holdings" class="panel-view flex-1 flex flex-col overflow-hidden hidden">
+        <div class="p-3 border-b border-[#1e2433] bg-[#151a28] flex flex-col gap-1">
+          <span class="text-[10px] text-slate-400 uppercase tracking-wider">Total Portfolio Value</span>
+          <div class="flex items-baseline justify-between font-mono">
+            <span class="text-lg font-bold text-white">₹3,48,220.00</span>
+            <span class="text-xs font-bold text-emerald-400">+₹42,850.00 (+14.03%)</span>
+          </div>
+        </div>
+        <div id="holdings-items-list" class="flex-1 overflow-y-auto divide-y divide-[#1e2433] scrollbar-thin p-2 space-y-2">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Drawer Body: Balance Panel (Zero Risk Paper Trading Capital) -->
+      <div id="panel-balance" class="panel-view flex-1 flex flex-col overflow-hidden hidden p-4 space-y-4">
+        <div class="p-4 rounded-xl bg-[#181e2b] border border-[#1e2433] space-y-3 font-mono">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400 uppercase font-sans">Available Trading Margin</span>
+            <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-[#00d09c] border border-emerald-500/20 font-bold">Paper Trading</span>
+          </div>
+          <span id="balance-available-margin" class="text-2xl font-bold text-emerald-400 block">₹95,320.00</span>
+          <div class="h-px bg-[#2d3748]"></div>
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-400">Margin Used:</span>
+            <span id="balance-used-margin" class="text-white font-bold">₹4,680.00</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-400">Realized P&L:</span>
+            <span id="balance-realized-pnl" class="text-emerald-400 font-bold">₹0.00</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-400">Total Funds (Capital):</span>
+            <span id="balance-total-funds" class="text-white font-bold">₹1,00,000.00</span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button id="btn-add-funds" class="mint-btn-default mint-btn-primary flex-1 py-2.5 rounded-lg bg-[#00d09c] text-[#121622] font-bold text-xs hover:bg-emerald-400 transition flex items-center justify-center gap-1.5">
+            + Add ₹50,000 Margin
+          </button>
+          <button id="btn-reset-balance" class="mint-btn-default mint-btn-secondary flex-1 py-2.5 rounded-lg bg-[#1b2130] text-slate-200 border border-slate-700 font-bold text-xs hover:bg-[#232a3d] transition flex items-center justify-center gap-1.5">
+            Reset to ₹1,00,000
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawer Body: Protocol Feed Panel -->
+      <div id="panel-feed" class="panel-view flex-1 flex flex-col overflow-hidden hidden">
+        <div class="p-2 border-b border-[#1e2433] flex items-center justify-between bg-[#151a28]">
+          <span class="text-xs font-bold text-white uppercase">Decoded NATS Packets</span>
+          <button id="btn-clear-feed" class="text-[11px] text-slate-400 hover:text-white px-2 py-0.5 rounded bg-slate-800">Clear</button>
+        </div>
+        <div id="feed-log" class="flex-1 p-2 overflow-y-auto font-mono text-[11px] space-y-1.5 scrollbar-thin">
+          <!-- Streaming logs -->
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ============================================================= -->
+    <!-- 4. RIGHT VERTICAL SIDEBAR (Exact 64px Groww Component)       -->
+    <!-- ============================================================= -->
+    <nav class="navBar_container">
+      <!-- Top Actions Stack -->
+      <div class="flex flex-col items-center gap-1.5 w-full">
+        
+        <!-- 1. Positions -->
+        <div class="navButton_wrapper" data-tool="positions" title="Positions">
+          <div class="navButton_icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <g fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a7 7 0 0 0-7 7v3a7 7 0 0 0 7 7h8a7 7 0 0 0 7-7v-3a7 7 0 0 0-7-7zm-5 7a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/>
+                <path d="M9.343 16.463h-.935a.4.4 0 0 1-.27-.096.4.4 0 0 1-.095-.269v-2.805H5.365a.4.4 0 0 1-.27-.096.4.4 0 0 1-.095-.27v-.855a.4.4 0 0 1 .095-.27.37.37 0 0 1 .27-.11h2.678V8.918a.4.4 0 0 1 .095-.27.37.37 0 0 1 .27-.11h.935q.158 0 .27.11.11.111.11.27v2.774h2.663q.159 0 .27.11a.37.37 0 0 1 .11.27v.856a.37.37 0 0 1-.11.27.4.4 0 0 1-.27.095H9.723v2.805a.37.37 0 0 1-.11.27.4.4 0 0 1-.27.095M18.62 13.34h-3.741a.4.4 0 0 1-.27-.095.4.4 0 0 1-.095-.27v-.887a.4.4 0 0 1 .095-.27.37.37 0 0 1 .27-.11h3.74q.159 0 .27.11a.37.37 0 0 1 .111.27v.888a.37.37 0 0 1-.111.269.4.4 0 0 1-.27.095"/>
+              </g>
+            </svg>
+          </div>
+          <span class="navButton_text">Positions</span>
+        </div>
+
+        <!-- 2. Chain -->
+        <div class="navButton_wrapper" data-tool="chain" title="Option Chain">
+          <div class="navButton_icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"/>
+            </svg>
+          </div>
+          <span class="navButton_text">Chain</span>
+        </div>
+
+        <!-- 3. Orders -->
+        <div class="navButton_wrapper" data-tool="orders" title="Orders">
+          <div class="navButton_icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8 17q.424 0 .713-.288A.97.97 0 0 0 9 16a.97.97 0 0 0-.287-.713A.97.97 0 0 0 8 15a.97.97 0 0 0-.713.287A.97.97 0 0 0 7 16q0 .424.287.712Q7.576 17 8 17m0-4q.424 0 .713-.287A.97.97 0 0 0 9 12a.97.97 0 0 0-.287-.713A.97.97 0 0 0 8 11a.97.97 0 0 0-.713.287A.97.97 0 0 0 7 12q0 .424.287.713Q7.576 13 8 13m0-4q.424 0 .713-.287A.97.97 0 0 0 9 8a.97.97 0 0 0-.287-.713A.97.97 0 0 0 8 7a.97.97 0 0 0-.713.287A.97.97 0 0 0 7 8q0 .424.287.713Q7.576 9 8 9m4 8h4q.424 0 .712-.288A.97.97 0 0 0 17 16a.97.97 0 0 0-.288-.713A.97.97 0 0 0 16 15h-4a.97.97 0 0 0-.713.287A.97.97 0 0 0 11 16q0 .424.287.712.288.288.713.288m0-4h4q.424 0 .712-.287A.97.97 0 0 0 17 12a.97.97 0 0 0-.288-.713A.97.97 0 0 0 16 11h-4a.97.97 0 0 0-.713.287A.97.97 0 0 0 11 12q0 .424.287.713.288.287.713.287m0-4h4q.424 0 .712-.287A.97.97 0 0 0 17 8a.97.97 0 0 0-.288-.713A.97.97 0 0 0 16 7h-4a.97.97 0 0 0-.713.287A.97.97 0 0 0 11 8q0 .424.287.713Q11.576 9 12 9M5 21q-.824 0-1.412-.587A1.93 1.93 0 0 1 3 19V5q0-.824.587-1.412A1.93 1.93 0 0 1 5 3h14q.824 0 1.413.587Q21 4.176 21 5v14q0 .824-.587 1.413A1.93 1.93 0 0 1 19 21zm0-2h14V5H5z"/>
+            </svg>
+          </div>
+          <span class="navButton_text">Orders</span>
+        </div>
+
+        <!-- 4. Watchlist -->
+        <div class="navButton_wrapper" data-tool="watchlist" title="Watchlist">
+          <div class="navButton_icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <path fill="currentColor" d="m12 19-4.2 1.8q-1 .426-1.9-.163-.9-.587-.9-1.662V6q0-.824.588-1.412A1.93 1.93 0 0 1 7 4h10q.824 0 1.413.588Q19 5.175 19 6v12.975q0 1.075-.9 1.662-.9.588-1.9.163zm0-2.2 5 2.15V6H7v12.95z"/>
+            </svg>
+          </div>
+          <span class="navButton_text">Watchlist</span>
+        </div>
+
+        <!-- 5. Depth -->
+        <div class="navButton_wrapper" data-tool="depth" title="Market Depth">
+          <div class="navButton_icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <path fill="currentColor" d="m5 7.85-.9.875A.93.93 0 0 1 3.412 9a.97.97 0 0 1-.712-.3.95.95 0 0 1-.275-.7q0-.425.275-.7l2.6-2.6q.15-.15.325-.212.175-.063.375-.063t.375.063A.9.9 0 0 1 6.7 4.7l2.6 2.6q.275.275.287.688A.93.93 0 0 1 9.3 8.7a.98.98 0 0 1-.688.288.97.97 0 0 1-.712-.263L7 7.85v8.3l.9-.875A.93.93 0 0 1 8.587 15q.413 0 .713.3a.95.95 0 0 1 .275.7.95.95 0 0 1-.275.7l-2.6 2.6q-.15.15-.325.212a1.1 1.1 0 0 1-.375.063q-.2 0-.375-.062A.9.9 0 0 1 5.3 19.3l-2.6-2.6a.98.98 0 0 1-.288-.687.93.93 0 0 1 .288-.713.98.98 0 0 1 .687-.288.97.97 0 0 1 .713.263l.9.875zM13 19a.97.97 0 0 1-.713-.288A.97.97 0 0 1 12 18q0-.424.287-.712A.97.97 0 0 1 13 17h8q.424 0 .712.288.288.287.288.712 0 .424-.288.712A.97.97 0 0 1 21 19zm0-6a.97.97 0 0 1-.713-.287A.97.97 0 0 1 12 12q0-.424.287-.713A.97.97 0 0 1 13 11h8q.424 0 .712.287.288.288.288.713 0 .424-.288.713A.97.97 0 0 1 21 13zm0-6a.97.97 0 0 1-.713-.287A.97.97 0 0 1 12 6q0-.424.287-.712A.97.97 0 0 1 13 5h8q.424 0 .712.288Q22 5.575 22 6q0 .424-.288.713A.97.97 0 0 1 21 7z"/>
+            </svg>
+          </div>
+          <span class="navButton_text">Depth</span>
+        </div>
+
+        <!-- 6. Holdings -->
+        <div class="navButton_wrapper" data-tool="holdings" title="Holdings">
+          <div class="navButton_icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M4 21q-.824 0-1.412-.587A1.93 1.93 0 0 1 2 19V8q0-.824.587-1.412A1.93 1.93 0 0 1 4 6h4V4q0-.824.588-1.412A1.93 1.93 0 0 1 10 2h4q.825 0 1.412.587Q16 3.176 16 4v2h4q.824 0 1.413.588Q22 7.175 22 8v11q0 .824-.587 1.413A1.93 1.93 0 0 1 20 21zm0-2h16V8H4zm6-13h4V4h-4z"/>
+            </svg>
+          </div>
+          <span class="navButton_text">Holdings</span>
+        </div>
+
+        <!-- 7. Balance -->
+        <div class="navButton_wrapper" data-tool="balance" title="Balance & Margin">
+          <div class="navButton_icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M5 21q-.824 0-1.412-.587A1.93 1.93 0 0 1 3 19V5q0-.824.587-1.412A1.93 1.93 0 0 1 5 3h14q.824 0 1.413.587Q21 4.176 21 5v2.5h-2V5H5v14h14v-2.5h2V19q0 .824-.587 1.413A1.93 1.93 0 0 1 19 21zm8-4q-.825 0-1.412-.587A1.93 1.93 0 0 1 11 15V9q0-.825.588-1.412A1.93 1.93 0 0 1 13 7h7q.824 0 1.413.588Q22 8.175 22 9v6q0 .824-.587 1.413A1.93 1.93 0 0 1 20 17zm7-2V9h-7v6zm-4-1.5q.625 0 1.063-.437.437-.438.437-1.063t-.437-1.062A1.45 1.45 0 0 0 16 10.5q-.625 0-1.062.438A1.45 1.45 0 0 0 14.5 12q0 .624.438 1.063.437.437 1.062.437"/>
+            </svg>
+          </div>
+          <span class="navButton_text">Balance</span>
+        </div>
+
+      </div>
+
+      <!-- Bottom Layout Button & Popover -->
+      <div class="flex flex-col items-center w-full relative">
+        <div class="navBar_separator"></div>
+        <div id="btn-layout-menu-trigger" class="MultiLayoutButton_circularButton" title="Layout Settings">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M3.588 20.413Q4.175 21 5 21h9a1 1 0 1 0 0-2h-1V5h6v9a1 1 0 1 0 2 0V5q0-.824-.587-1.412A1.93 1.93 0 0 0 19 3H5q-.824 0-1.412.587A1.93 1.93 0 0 0 3 5v14q0 .824.587 1.413M11 19H5V5h6z"/>
+            <path fill="currentColor" d="M19 21h-1a.97.97 0 0 1-.712-.288A.97.97 0 0 1 17 20q0-.424.288-.712A.97.97 0 0 1 18 19h1v-1q0-.424.288-.712A.97.97 0 0 1 20 17q.424 0 .712.288.288.287.288.712v1h1q.424 0 .712.288.288.287.288.712 0 .424-.288.712A.97.97 0 0 1 22 21h-1v1q0 .424-.288.712A.97.97 0 0 1 20 23a.97.97 0 0 1-.712-.288A.97.97 0 0 1 19 22z"/>
+          </svg>
+        </div>
+        <span class="navButton_text mt-1">Layout</span>
+
+        <!-- Floating Layout Menu -->
+        <div id="layout-popover-menu" class="MultiLayoutButton_menu">
+          <div class="p-3 border-b border-[#2d3748]">
+            <span class="text-[11px] font-bold text-slate-300 block mb-2">Panel Layout</span>
+            <div class="flex gap-2">
+              <button id="layout-single-btn" class="flex-1 py-1.5 px-2 rounded bg-[#00d09c]/20 text-[#00d09c] border border-[#00d09c]/40 text-xs font-semibold">
+                Single
+              </button>
+              <button id="layout-split-btn" class="flex-1 py-1.5 px-2 rounded bg-[#232a3d] text-slate-300 text-xs font-semibold hover:bg-[#2d3748]">
+                Split 2
+              </button>
+            </div>
+          </div>
+          <div class="p-2.5">
+            <button id="layout-feed-btn" class="w-full py-1.5 px-2 text-left text-xs font-semibold text-slate-300 hover:text-white flex items-center justify-between rounded hover:bg-[#232a3d]">
+              <span>Protocol Feed</span>
+              <span class="text-[10px] text-emerald-400">NATS</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 5. GROWW PLACE ORDER MODAL (Paper Trading / Simulation)        -->
+  <!-- Uses exact classes from webtest/css (b84b & e446 & c940)     -->
+  <!-- ============================================================= -->
+  <div id="place-order-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div class="placeOrderScreen_mainDiv__n_KNk bg-[#151a28] border border-[#232a3d] rounded-2xl w-[440px] max-w-[95vw] overflow-hidden shadow-2xl flex flex-col font-sans">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-[#1e2433] bg-[#121622]">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modal-order-symbol" class="text-white font-bold text-base tracking-tight">NIFTY 26NOV 23100 CE</span>
+            <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-[#00d09c] border border-emerald-500/20 font-bold">Paper Trade</span>
+          </div>
+          <div class="text-xs text-slate-400 mt-0.5">
+            Live LTP: <span id="modal-order-ltp" class="font-mono font-bold text-white">₹54.20</span>
+          </div>
+        </div>
+        <button id="modal-order-close" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-[#1b2130] transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Buy / Sell Tabs with Animated Underline (b84b3f547e856962.css) -->
+      <div class="placeOrderScreen_tabContainer__awQbP relative flex border-b border-[#1e2433] bg-[#151a28]">
+        <button id="tab-order-buy" class="flex-1 py-3 text-center text-sm font-bold text-[#00d09c] transition">BUY</button>
+        <button id="tab-order-sell" class="flex-1 py-3 text-center text-sm font-bold text-slate-400 hover:text-slate-200 transition">SELL</button>
+        <div id="tab-order-indicator" class="placeOrderScreen_greenLine__CVpTQ absolute w-1/2 bottom-0 left-0 transition-all duration-300"></div>
+      </div>
+
+      <!-- Order Settings Form -->
+      <div class="p-5 flex-1 flex flex-col gap-4">
+        <!-- Product Type: Delivery vs Intraday -->
+        <div class="placeOrderScreen_productType__MUleR flex items-center justify-between">
+          <span class="text-xs text-slate-400 font-semibold">Product Type</span>
+          <div class="flex gap-2">
+            <button id="product-mis-btn" class="placeOrderScreen_productOption___novo active-product text-xs font-semibold px-3 py-1.5 rounded-full border border-[#00d09c] bg-[#00d09c]/10 text-[#00d09c] transition">
+              Intraday (MIS)
+            </button>
+            <button id="product-cnc-btn" class="placeOrderScreen_productOption___novo text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-700 text-slate-400 hover:border-slate-500 transition">
+              Overnight (NRML)
+            </button>
+          </div>
+        </div>
+
+        <!-- Quantity with Lot Stepper -->
+        <div class="placeOrderScreen_qtyRow___S7cd flex items-center justify-between border-b border-[#1e2433] pb-3">
+          <div>
+            <span class="text-xs text-slate-200 font-semibold block">Quantity (Shares)</span>
+            <span id="modal-lot-size-hint" class="text-[10.5px] text-slate-400 font-mono">Lot Size: 25</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-qty-minus" class="w-8 h-8 rounded-lg bg-[#1b2130] text-slate-300 hover:text-white flex items-center justify-center font-bold text-lg border border-slate-700 hover:bg-[#232a3d] transition">−</button>
+            <input id="modal-qty-input" type="number" value="25" min="1" step="25" class="placeOrderScreen_qtyInputBox__wFZbB w-20 bg-[#1b2130] text-center font-mono text-sm font-bold text-white py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-[#00d09c]">
+            <button id="btn-qty-plus" class="w-8 h-8 rounded-lg bg-[#1b2130] text-slate-300 hover:text-white flex items-center justify-center font-bold text-lg border border-slate-700 hover:bg-[#232a3d] transition">+</button>
+          </div>
+        </div>
+
+        <!-- Price Type & Input -->
+        <div class="placeOrderScreen_orderPriceUI__4gMW3 flex items-center justify-between border-b border-[#1e2433] pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-200 font-semibold">Order Type</span>
+            <div class="flex gap-1 bg-[#121622] p-0.5 rounded-lg border border-slate-800 text-[11px]">
+              <button id="order-type-market-btn" class="px-2.5 py-1 rounded-md font-bold bg-[#1b2130] text-emerald-400 border border-emerald-500/30">Market</button>
+              <button id="order-type-limit-btn" class="px-2.5 py-1 rounded-md font-semibold text-slate-400 hover:text-white">Limit</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 font-mono">
+            <span class="text-slate-400 text-xs">₹</span>
+            <input id="modal-price-input" type="number" step="0.05" value="54.20" disabled class="w-24 bg-[#121622] text-right text-sm font-bold text-slate-300 py-1.5 px-2.5 rounded-lg border border-slate-800 disabled:opacity-50 focus:outline-none focus:border-[#00d09c]">
+          </div>
+        </div>
+
+        <!-- Margin Details Card -->
+        <div class="p-3.5 rounded-xl bg-[#121622] border border-[#1e2433] space-y-2 text-xs font-mono">
+          <div class="flex justify-between">
+            <span class="text-slate-400">Required Margin:</span>
+            <span id="modal-required-margin" class="font-bold text-white">₹1,355.00</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Available Margin:</span>
+            <span id="modal-available-margin" class="font-bold text-emerald-400">₹95,320.00</span>
+          </div>
+          <div class="flex justify-between text-[11px] pt-1.5 border-t border-[#1e2433]">
+            <span class="text-slate-400 font-sans">Execution Mode:</span>
+            <span class="text-cyan-400 font-sans font-semibold">Zero Risk Paper Trading</span>
+          </div>
+        </div>
+
+        <!-- Action CTA Button (.mint-btn-default .mint-btn-primary from e446f02df6420cd3.css) -->
+        <button id="btn-submit-order" class="mint-btn-default mint-btn-primary mint-btn-large mint-btn-full-width py-3.5 rounded-xl bg-[#00d09c] hover:bg-emerald-400 text-[#121622] font-bold text-sm uppercase tracking-wide transition shadow-lg mt-1 flex items-center justify-center gap-2 cursor-pointer">
+          <span id="btn-submit-order-side">BUY</span>
+          <span id="btn-submit-order-label">NIFTY 26NOV 23100 CE</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 6. GROWW OFFICIAL SNACKBAR NOTIFICATION TOAST                  -->
+  <!-- Uses .snackBar_snackBar__jvk4l from 3cac0cca1c311f46.css      -->
+  <!-- ============================================================= -->
+  <div id="groww-snackbar" class="snackBar_snackBar__jvk4l font-sans">
+    <div class="flex items-center justify-between w-full max-w-[800px] mx-auto">
+      <div class="flex items-center gap-3">
+        <span id="snackbar-icon" class="text-emerald-400 font-bold text-sm">✓</span>
+        <span id="snackbar-msg" class="snackBar_snackBarMsg__tgbl8 text-white text-xs font-semibold">Order Executed Successfully</span>
+      </div>
+      <button id="snackbar-close" class="snackBar_snackBarCloseIcn__wJBJs text-slate-400 hover:text-white font-bold p-1">✕</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" data-next-head="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"
+      data-next-head=""
+    />
+    <link rel="icon" href="/favicon32x32-groww.ico" data-next-head="" />
+    <title data-next-head="">
+      NIFTY 50 Share Price Live Chart Today - Groww Terminal
+    </title>
+    <meta
+      name="description"
+      content="NIFTY 50 Share Price Chart - View today’s NIFTY 50 Stock Price Chart for BSE and NSE at Groww Terminal.
+    Track NIFTY 50 Chart History including Candlestick &amp; Periodic charts with different indicators."
+      data-next-head=""
+    />
+    <meta name="robots" content="index" data-next-head="" />
+    <meta name="twitter:card" content="summary_large_image" data-next-head="" />
+    <meta
+      name="twitter:image"
+      content="https://groww.in/groww-logo-270.png"
+      data-next-head=""
+    />
+    <meta
+      name="twitter:description"
+      content="NIFTY 50 Share Price Chart - View today’s NIFTY 50 Stock Price Chart for BSE and NSE at Groww Terminal.
+    Track NIFTY 50 Chart History including Candlestick &amp; Periodic charts with different indicators."
+      data-next-head=""
+    />
+    <meta
+      name="twitter:title"
+      content="NIFTY 50 Share Price Live Chart Today - Groww Terminal"
+      data-next-head=""
+    />
+    <meta name="twitter:site" content="_@groww" data-next-head="" />
+    <meta name="twitter:creator" content="_@groww" data-next-head="" />
+    <meta
+      itemprop="name"
+      content="NIFTY 50 Share Price Live Chart Today - Groww Terminal"
+      data-next-head=""
+    />
+    <meta
+      itemprop="description"
+      content="NIFTY 50 Share Price Chart - View today’s NIFTY 50 Stock Price Chart for BSE and NSE at Groww Terminal.
+    Track NIFTY 50 Chart History including Candlestick &amp; Periodic charts with different indicators."
+      data-next-head=""
+    />
+    <meta
+      itemprop="image"
+      content="https://groww.in/groww-logo-270.png"
+      data-next-head=""
+    />
+    <meta property="og:locale" content="en_US" data-next-head="" />
+    <meta property="og:type" content="website" data-next-head="" />
+    <meta
+      property="og:title"
+      content="NIFTY 50 Share Price Live Chart Today - Groww Terminal"
+      data-next-head=""
+    />
+    <meta
+      property="og:image"
+      content="https://groww.in/groww-logo-270.png"
+      data-next-head=""
+    />
+    <meta
+      property="og:description"
+      content="NIFTY 50 Share Price Chart - View today’s NIFTY 50 Stock Price Chart for BSE and NSE at Groww Terminal.
+    Track NIFTY 50 Chart History including Candlestick &amp; Periodic charts with different indicators."
+      data-next-head=""
+    />
+    <meta
+      property="og:url"
+      content="https://groww.in/charts/indices/nifty"
+      data-next-head=""
+    />
+    <meta property="og:site_name" content="Groww" data-next-head="" />
+    <link
+      rel="publisher"
+      href="https://plus.google.com/b/112795119140865328446/+GrowwIn?"
+      data-next-head=""
+    />
+    <link
+      rel="canonical"
+      href="https://groww.in/charts/indices/nifty"
+      data-next-head=""
+    />
+    <meta
+      property="csp-nonce"
+      content="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src &#x27;self&#x27; blob:; object-src &#x27;none&#x27; blob:; worker-src &#x27;self&#x27; blob:; block-all-mixed-content; script-src &#x27;self&#x27; &#x27;nonce-Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE=&#x27; &#x27;wasm-unsafe-eval&#x27; https://*.groww.in/ https://*.growwinfra.in/ wss://*.groww.in/ wss://groww.in/ https://*.freshchat.com/ https://connect.facebook.net/ https://*.razorpay.com/ https://d2yyd1h5u9mauk.cloudfront.net/integrations/web/v1/library/ https://storage.googleapis.com/ https://www.googletagmanager.com/ https://tagmanager.google.com https://www.google-analytics.com/ https://ssl.google-analytics.com https://stats.g.doubleclick.net/ https://googleads.g.doubleclick.net/ https://www.googleadservices.com/ https://*.google.com/ https://www.google.co.in/ https://fonts.googleapis.com/ https://www.youtube.com/ https://www.youtube.com/iframe_api https://www.youtube-nocookie.com/ https://*.ingest.sentry.io https://hv-camera-web-sg.s3-ap-southeast-1.amazonaws.com/ https://hv-central-config.s3.ap-south-1.amazonaws.com/ https://hypersnapweb.hyperverge.co/ https://microapps.onemoney.in/ https://webrd.onemoney.in/ https://unpkg.com/ https://cdnjs.cloudflare.com/ https://www.gstatic.com/; img-src &#x27;self&#x27; data: blob: https://groww.in/ https://*.groww.in/ https://img.youtube.com/ https://i.ytimg.com https://i3.ytimg.com https://s3.amazonaws.com/cdn.freshdesk.com/ https://viewlogo.s3.amazonaws.com/ https://wchat.freshchat.com/ https://www.google-analytics.com/ https://*.googleapis.com/ https://*.googleusercontent.com/ https://www.google.com/ https://www.google-analytics.com https://www.google.com/ads/ga-audiences https://www.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com https://stats.g.doubleclick.net/ https://www.google.co.in/ads/ga-audiences https://*.ingest.sentry.io https://hv-camera-web-sg.s3-ap-southeast-1.amazonaws.com/ https://hv-central-config.s3.ap-south-1.amazonaws.com/ https://hypersnapweb.hyperverge.co/ https://microapps.onemoney.in/ https://webrd.onemoney.in/ https://www.google.co.in/pagead/ https://cdnjs.cloudflare.com/; style-src &#x27;self&#x27; https://*.groww.in/ &#x27;unsafe-inline&#x27; https://accounts.google.com https://wchat.freshchat.com/ https://fonts.googleapis.com; font-src &#x27;self&#x27; https://*.groww.in/ data: https://fonts.gstatic.com; connect-src &#x27;self&#x27; data: https://*.groww.in/ https://*.growwinfra.in/ wss://*.groww.in/ wss://groww.in/ https://*.razorpay.com/ https://*.delighted.com/ https://accounts.google.com https://*.googleapis.com/ https://*.ingest.sentry.io https://hv-camera-web-sg.s3-ap-southeast-1.amazonaws.com/ https://hv-central-config.s3.ap-south-1.amazonaws.com/ https://hypersnapweb.hyperverge.co/ https://microapps.onemoney.in/ https://share.chartiq.com/ https://webrd.onemoney.in/ https://www.google-analytics.com/ https://analytics.google.com/ https://region1.analytics.google.com/ https://region1.google-analytics.com/ https://stats.g.doubleclick.net/ https://www.google.com/ https://cdnjs.cloudflare.com/; frame-src &#x27;self&#x27; blob: https://*.google.com/ https://www.youtube.com/ https://www.facebook.com https://*.groww.in/ wss://*.groww.in/ wss://groww.in/ https://wchat.freshchat.com/ https://growwapi.firebaseapp.com/ https://www.youtube.com/embed/ https://www.youtube.com/ https://www.youtube-nocookie.com/ https://*.ingest.sentry.io https://hv-camera-web-sg.s3-ap-southeast-1.amazonaws.com/ https://hv-central-config.s3.ap-south-1.amazonaws.com/ https://hypersnapweb.hyperverge.co/ https://microapps.onemoney.in/ https://webrd.onemoney.in/ https://*.doubleclick.net/ https://www.googletagmanager.com/ https://mfcentral.com/ https://*.mfcentral.com/; media-src https://*.groww.in/ blob:;"
+    />
+    <meta charset="utf-8" />
+    <link rel="manifest" href="/manifest.json?v=1" />
+    <link
+      rel="preload"
+      href="https://resources.groww.in/web-assets/font/Soehne.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="https://resources.groww.in/web-assets/font/GrowwSans-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Groww" />
+    <meta name="apple-mobile-web-app-title" content="Groww" />
+    <meta name="theme-color" content="#5500eb" />
+    <meta name="msapplication-navbutton-color" content="#5500eb" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="msapplication-starturl" content="/" />
+    <link
+      type="application/opensearchdescription+xml"
+      rel="search"
+      href="/osdd.xml?v=6"
+    />
+    <link data-next-font="" rel="preconnect" href="/" crossorigin="anonymous" />
+    <script
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      data-nscript="beforeInteractive"
+    >
+      if (Promise && !Promise.allSettled) {
+        Promise.allSettled = function (promises) {
+          return Promise.all(
+            promises.map(function (promise) {
+              return promise
+                .then(function (value) {
+                  return { state: "fulfilled", value: value };
+                })
+                .catch(function (reason) {
+                  return { state: "rejected", reason: reason };
+                });
+            }),
+          );
+        };
+      }
+    </script>
+    <script
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      data-nscript="beforeInteractive"
+    >
+      (function () {
+        if (typeof globalThis === "undefined") {
+          if (typeof window !== "undefined") {
+            window.globalThis = window;
+          } else if (typeof global !== "undefined") {
+            global.globalThis = global;
+          } else if (typeof self !== "undefined") {
+            self.globalThis = self;
+          }
+        }
+      })();
+    </script>
+    <link
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      rel="preload"
+      href="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/css/e446f02df6420cd3.css"
+      as="style"
+    />
+    <link
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      rel="stylesheet"
+      href="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/css/e446f02df6420cd3.css"
+      data-n-g=""
+    />
+    <noscript
+      data-n-css="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+    ></noscript>
+    <script
+      defer=""
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      nomodule=""
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/polyfills-42372ed130431b0a.js"
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/webpack-4cf320c272594ab1.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/framework-8055c5f243a31f9e.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/main-c6f16fb934a7e682.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/pages/_app-7a0a704c236240d6.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/9907-d8e7578b5a3997f7.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/1992-e0d20f0160e51b09.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/chunks/pages/charts/%5BentityType%5D/%5BsearchId%5D-28536817329e54e2.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/opqvMmHbstuZNblgoJrre/_buildManifest.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+    <script
+      src="//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod/_next/static/opqvMmHbstuZNblgoJrre/_ssgManifest.js"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+      defer=""
+    ></script>
+  </head>
+  <body>
+    <div id="__next">
+      <div id="root">
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "NIFTY 50 Share Price Live Chart Today - Groww Terminal",
+            "description": "NIFTY 50 Share Price Chart - View today’s NIFTY 50 Stock Price Chart for BSE and NSE at Groww Terminal.\n    Track NIFTY 50 Chart History including Candlestick & Periodic charts with different indicators.",
+            "url": "https://groww.in/charts/indices/nifty",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Groww",
+              "url": "https://groww.in",
+              "logo": {
+                "@type": "ImageObject",
+                "contentUrl": "https://groww.in/groww-logo-270.png"
+              }
+            }
+          }
+        </script>
+      </div>
+    </div>
+    <script
+      id="__NEXT_DATA__"
+      type="application/json"
+      nonce="Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE="
+    >
+      {
+        "props": {
+          "pageProps": {
+            "entityData": {
+              "searchId": "nifty",
+              "growwCompanyId": "GIDXNIFTY",
+              "isin": "NIFTY",
+              "displayName": "NIFTY 50",
+              "shortName": "NIFTY 50",
+              "type": "INDEX",
+              "isFnoEnabled": true,
+              "nseScriptCode": "NIFTY",
+              "bseScriptCode": null,
+              "isBseTradable": false,
+              "isNseTradable": false,
+              "logoUrl": "https://assets-netstorage.groww.in/stock-assets/logos/GIDXNIFTY.png",
+              "isBseFnoEnabled": false,
+              "isNseFnoEnabled": true,
+              "sessionSchedule": "CAS",
+              "indicativePriceTiming": {
+                "startTime": 1793353800000,
+                "endTime": 1793354400000
+              },
+              "priceData": {
+                "nse": { "yearLowPrice": 22179.9, "yearHighPrice": 26373.2 },
+                "bse": {}
+              },
+              "companyName": "NIFTY 50",
+              "companyShortName": "NIFTY 50",
+              "growwContractId": "GIDXNIFTY",
+              "equityType": "INDEX"
+            },
+            "isBse": false,
+            "isExtChart": false,
+            "isWebview": false
+          }
+        },
+        "page": "/charts/[entityType]/[searchId]",
+        "query": { "entityType": "indices", "searchId": "nifty" },
+        "buildId": "opqvMmHbstuZNblgoJrre",
+        "assetPrefix": "//assets-netstorage.groww.in/web-assets/billion_groww_chartiq/prod",
+        "isFallback": false,
+        "isExperimentalCompile": false,
+        "gip": true,
+        "scriptLoader": [
+          {
+            "nonce": "Z58IeJ8+3DPlfFOIxPIkbc4kfcZDSie7iVDBxsabLkE=",
+            "strategy": "lazyOnload",
+            "dangerouslySetInnerHTML": {
+              "__html": "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'\u0026l='+l:'';j.async=!0;j.src='https://www.googletagmanager.com/gtm.js?refresh=1\u0026id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','GTM-T7VTWPR')"
+            },
+            "defer": true
+          }
+        ]
+      }
+    </script>
+    <script
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092"
+      integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw=="
+      data-cf-beacon='{"version":"2024.11.0","token":"325a8077a90445fd9fb4d15b919a1e89","spa":2}'
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

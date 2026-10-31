@@ -1,0 +1,92 @@
+/*
+  Desktop variant of customStyles_v06.css.
+  The two mobile media blocks that hide #header-toolbar-layouts (the
+  TradingView multi-chart Layout button) are intentionally absent here:
+  inside the chart iframe `max-width`/`orientation` track the CHART AREA
+  (panels open -> "portrait"), and `device-width` shrinks under Windows
+  display scaling (1366px @150% = 911 CSS px), so on desktop those rules
+  hid the Layout button for users with panels open or scaled displays.
+  Mobile/webview/ext keep customStyles_v06.css unchanged.
+*/
+
+/** Whenever making changes in this file increase the version as this file is cached on CDN **/
+
+/** Below btn is for tradingview searchbar which shows symbol */
+
+div.button-rlvYsQ_k {
+  width: auto !important;
+}
+
+button.button-cq__ntSC {
+  width: auto !important;
+}
+
+/** Display none for live blinker as we have set unusual market hrs in config */
+
+.statusesWrapper-G1_Pfvwd {
+  display: none;
+}
+
+/** Display none for hiding 3 options wich are not working */
+
+[data-name|="copy-link-to-the-chart-image"],
+[data-name|="open-image-in-new-tab"],
+[data-name|="tweet-chart-image"] {
+  display: none;
+}
+
+:root:not(.theme-dark) {
+  --tv-color-platform-background: #F6F6F7;
+}
+
+.theme-dark .dialog-nnDbXk_L {
+  background: #1D1D1D !important;
+}
+
+.theme-dark .menuWrap-biWYdsXC {
+  background: #1D1D1D !important;
+}
+
+.theme-dark .item-RhC5uhZw {
+  background: #1D1D1D !important;
+}
+
+.theme-dark .item-RhC5uhZw:hover {
+  background: #1D1D1D !important;
+}
+
+.theme-dark .backdrop-nnDbXk_L {
+  background-color: #121212 !important;
+}
+
+.theme-dark:root {
+  --tv-color-platform-background: #1D1D1D;
+  --tv-color-pane-background: #121212;
+  --tv-color-toolbar-button-text: #DCDCDD;
+  --tv-color-toolbar-button-text-hover: #DCDCDD;
+  --tv-color-toolbar-button-background-hover: #1D1D1D;
+  --tv-color-toolbar-button-background-active: #1D1D1D;
+  --tv-color-toolbar-button-background-expanded: #1D1D1D;
+}
+
+#tv_custom_back_btn_123,
+#tv_custom_side_nav_toggle_123 {
+  position: fixed;
+  top: 0;
+  height: inherit;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--tv-color-pane-background, #FFF);
+}
+
+#tv_custom_back_btn_123 {
+  padding-left: 4px;
+  left: 0;
+}
+
+#tv_custom_side_nav_toggle_123 {
+  padding: 0 6px;
+  right: 0;
+}
